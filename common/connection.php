@@ -1,6 +1,6 @@
 <?php
 
-require_once("BoardSetup.php");
+require_once("../BoardSetup.php");
 /**
 *
 */
@@ -12,8 +12,7 @@ class Connection
   function __construct($user=DB_UID, $pass=DB_PASS, $database=DB_NAME, $host=DB_HOST)
   {
     try{
-      $this->_conn = new PDO("mysql:host={$host};dbname={$database}"
-      , $user , $pass);
+      $this->_conn = new mysqli($host, $user, $pass, $database);
       echo "connected";
     }catch(Exception $e){
       echo $e->getMessage();
@@ -33,10 +32,10 @@ class Connection
     ") VALUES ('" . implode("', '", $values) . "' );";
     echo "$str\n";//your sql
 
-    if ($conn->query($sql) === TRUE) {
+    if ($this->_conn->query($str) === TRUE) {
       echo "New record created successfully";
     } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
+      echo "Error: " . $str . "<br>" . $this->_conn->error;
     }
   }
   /**

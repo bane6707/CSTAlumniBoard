@@ -23,7 +23,7 @@ class Forum implements ModelInterface
     echo "inside Forum:save\n";
     $nConn = new Connection();
     $arr = array('title'=>$this->title);
-    $nConn->save($tableName, $arr);
+    $nConn->save($this->tableName, $arr);
   }
 
   public function delete()

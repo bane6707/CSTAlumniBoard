@@ -10,14 +10,17 @@ class User implements ModelInterface
 {
 
   private $tableName = "User";
-  private $username = "";
   private $password = "";
   private $email = "";
+  private $firstName = "";
+  private $lastName = "";
+  
 
-  function __construct($user, $pass, $email )
+  function __construct($firstName, $lastName, $pass, $email )
   {
     echo "inside User:constructor\n";
-    $this->username = $user;
+    $this->firstName = $firstName;
+    $this->lastName = $lastName;
     $this->password = $pass;
     $this->email = $email;
 
@@ -28,8 +31,8 @@ class User implements ModelInterface
   {
     echo "inside User:save\n";
     $nConn = new Connection();
-    $arr = array('username'=>$this->username, 'password'=>$this->password);
-    $nConn->save($tableName, $arr);
+    $arr = array('firstName'=>$this->firstName,'lastName'=>$this->lastName, 'password'=>$this->password, 'email'=>$this->email);
+    $nConn->save($this->tableName, $arr);
   }
 
   public function delete()

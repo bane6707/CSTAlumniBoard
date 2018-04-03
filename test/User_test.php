@@ -10,7 +10,7 @@ class User_test
 
   function __construct()
   {
-    $nUser = new User("bane6707", "password", "dbanerjee@csumb.edu");
+    $nUser = new User("D", "B", "password", "dbanerjee@csumb.edu");
     $nUser->save();
   }
 }
