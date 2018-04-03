@@ -33,9 +33,9 @@ class Connection
     echo "$str\n";//your sql
 
     if ($this->_conn->query($str) === TRUE) {
-      echo "Record created successfully";
+      echo "Record created successfully\n";
     } else {
-      echo "Error: " . $str . "<br>" . $this->_conn->error;
+      echo "Error: " . $str . "\n" . $this->_conn->error;
     }
     return $this->_conn->insert_id;
   }
@@ -58,9 +58,9 @@ class Connection
     echo "$str\n";//your sql
 
     if ($this->_conn->query($str) === TRUE) {
-      echo "New record updated successfully";
+      echo "New record updated successfully\n";
     } else {
-      echo "Error: " . $str . "<br>" . $this->_conn->error;
+      echo "Error: " . $str . "\n" . $this->_conn->error;
     }
   }
 

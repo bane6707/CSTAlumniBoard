@@ -25,73 +25,74 @@ class Thread implements ModelInterface
 
     public function loadThreadByID($threadID)
     {
-        global $connection;
-        $sql = "SELECT *
-                FROM THREAD
-                WHERE threadID = ?
-                ";
-        $stmt = $connection -> prepare($sql);
-        $stmt->bindParam(1, $threadID, PDO::PARAM_INT);
-        $stmt -> execute();
-        $result = $stmt->fetch();
-        if(!empty($result))
+        echo "inside Thread:loadThreadByID\n";
+        $this->threadID = $threadID;
+        $record = $this->getRecord();
+        if(!empty($record))
         {
-            $this->threadID = $result['threadID'];
-            $this->topic = $result['topic'];
-            $this->isPinned = $result['isPinned'];
-            $this->userID = $result['userID'];
-            $this->forumID = $result['forumID'];
+            $this->threadID = $record['threadID'];
+            $this->topic = $record['topic'];
+            $this->isPinned = $record['isPinned'];
+            $this->userID = $record['userID'];
+            $this->forumID = $record['forumID'];
             return true;
         }
+        echo "No record for threadID=".$threadID."\n";
         return false;
     }
 
     public function pinThread()
     {
+        echo "inside Thread:pinThread\n";
         if(!$this->threadID)
         {
+            echo "Error- no threadID associated with Thread, cannot pin.";
             return false;
         }
-        global $connection;
-        $sqli = "UPDATE THREAD SET isPinned = 1 WHERE threadID = ? ";
-        $stmti = $connection->prepare($sqli);
-        $stmti->bind_param("i", $this->threadID);
+        $nConn = new Connection();
+        $arr = array('isPinned'=>'1');
+        $nConn->update($this->tableName, $this->threadID, $arr);
 
         // Check if isPinned value was changed to 1
         $record = $this->getRecord();
         if(!empty($record))
         {
-            if($record['isPinned'] === 1)
+            if($record['isPinned'] == 1)
             {
                 $this->isPinned = 1;
+                echo "\nRecord pinned\n";
                 return true;
             }
         }
+        echo "\nRecord not pinned\n";
         return false;
     }
 
     public function unpinThread()
     {
+        echo "inside Thread:unpinThread\n";
         if(!$this->threadID)
         {
+            echo "Error- no threadID associated with Thread, cannot unpin.";
             return false;
         }
-        global $connection;
-        $sqli = "UPDATE THREAD SET isPinned = 0 WHERE threadID = ? ";
-        $stmti = $connection->prepare($sqli);
-        $stmti->bind_param("i", $this->threadID);
 
-        
+        $nConn = new Connection();
+        $arr = array('isPinned'=>'0');
+        $nConn->update($this->tableName, $this->threadID, $arr);
+
         // Check if isPinned value was changed to 0
         $record = $this->getRecord();
         if(!empty($record))
         {
-            if($record['isPinned'] === 0)
+            if($record['isPinned'] == 0)
             {
                 $this->isPinned = 0;
+                echo "\nRecord unpinned\n";
                 return true;
             }
         }
+        echo "\nRecord not unpinned\n";
         return false;
     }
 
@@ -150,7 +151,7 @@ class Thread implements ModelInterface
         if($this->threadID === "")
             return;
         $nConn = new Connection();
-        $nConn->getRecord($this->tableName, $this->threadID);
+        return $nConn->getRecord($this->tableName, $this->threadID);
     }
 
     public function findById(){

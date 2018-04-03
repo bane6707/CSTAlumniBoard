@@ -14,8 +14,11 @@ class Thread_test
     echo "\nThread test 2:\n";
     $nThread->update();
     echo "\nThread test 3:\n";
-    $nThread->getRecord();
+    $nThread->pinThread();
+    $nThread->unpinThread();
     echo "\nThread test 4:\n";
+    $nThread->getRecord();
+    echo "\nThread test 5:\n";
     $nThread->delete();
   }
 }
