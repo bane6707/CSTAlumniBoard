@@ -1,4 +1,6 @@
 <?php
+
+require_once("BoardSetup.php");
 /**
 *
 */
@@ -7,17 +9,15 @@ class Connection
 
   protected $_conn;
 
-  function __construct(/*$user, $pass, $database='bb', $host='localhost' */)
+  function __construct($user=DB_UID, $pass=DB_PASS, $database=DB_NAME, $host=DB_HOST)
   {
-    /*try{
+    try{
       $this->_conn = new PDO("mysql:host={$host};dbname={$database}"
-                      , $user , $pass);
+      , $user , $pass);
       echo "connected";
     }catch(Exception $e){
       echo $e->getMessage();
-    }*/
-
-    echo "inside connection:constructor\n";
+    }
   }
 
   /**
@@ -30,8 +30,14 @@ class Connection
     $values=array_values($arr);
 
     $str="INSERT INTO $tableName (".implode(',',$columns).
-          ") VALUES ('" . implode("', '", $values) . "' );";
+    ") VALUES ('" . implode("', '", $values) . "' );";
     echo "$str\n";//your sql
+
+    if ($conn->query($sql) === TRUE) {
+      echo "New record created successfully";
+    } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+    }
   }
   /**
   *
