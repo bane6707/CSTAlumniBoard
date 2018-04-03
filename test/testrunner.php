@@ -2,10 +2,14 @@
 
 require('User_test.php');
 require('Forum_test.php');
+require('Thread_test.php');
 
-echo "Running test 1\n";
+echo "\nRunning User tests\n";
 $ut = new User_test();
 
-//echo "Running test 2\n";
-//$fo = new Forum_test();
+echo "\n\nRunning Forum tests";
+$ft = new Forum_test();
+
+echo "\n\nRunning Thread tests";
+$tt = new Thread_test();
 ?>

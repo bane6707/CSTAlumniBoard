@@ -11,6 +11,8 @@ interface ModelInterface
 
   public function update();
 
+  public function getRecord();
+
   public function findById();
 }
 

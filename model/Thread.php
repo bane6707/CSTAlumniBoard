@@ -2,12 +2,13 @@
 
 require_once('../common/connection.php');
 require_once('ModelInterface.php');
+
 /**
  *
  */
-
 class Thread implements ModelInterface
 {
+    private $tableName = "Thread";
     private $threadID;
     private $topic;
     private $isPinned;
@@ -20,23 +21,6 @@ class Thread implements ModelInterface
         $this->isPinned = 0;
         $this->userID = $userID;
         $this->forumID = $forumID;
-    }
-
-    public function queryThread()
-    {
-        if(!$this->threadID)
-        {
-            return false;
-        }
-        global $connection;
-        $sql = "SELECT *
-                FROM THREAD
-                WHERE threadID = ?
-                ";
-        $stmt = $connection -> prepare($sql);
-        $stmt->bindParam(1, $this->threadID, PDO::PARAM_INT);
-        $stmt -> execute();
-        return $stmt->fetch();
     }
 
     public function loadThreadByID($threadID)
@@ -62,48 +46,6 @@ class Thread implements ModelInterface
         return false;
     }
 
-    public function createThread()
-    {
-        global $connection;
-        $sqli = "INSERT INTO THREAD (topic, isPinned, userID, forumID) VALUES (?, 0, ?, ?)";
-        $stmti = $connection->prepare($sqli);
-        $stmti->bindParam(1, $this->topic, PDO::PARAM_STR);
-        $stmti->bindParam(2, $this->userID, PDO::PARAM_INT);
-        $stmti->bindParam(3, $this->forumID, PDO::PARAM_INT);
-        if (!$stmti->execute()) {
-            exit ("Error.  Unable to create thread." . $connection->error);
-            return false;
-        }
-
-        $this->threadID = $connection->lastInsertId();
-        $result = $this->queryThread();
-        $this->topic = $result['topic'];
-        $this->isPinned = $result['isPinned'];
-        $this->userID = $result['userID'];
-        $this->forumID = $result['forumID'];
-        return true;
-    }
-
-    public function deleteThread()
-    {
-        if(!$this->threadID)
-        {
-            return false;
-        }
-        global $connection;
-        $sqli = "DELETE FROM THREAD WHERE threadID = ?"; //Delete record
-        $stmti = $connection->prepare($sqli);
-        $stmti -> bindParam(1, $this->threadID, PDO::PARAM_INT);
-        $stmti -> execute();
-        $result = $this->queryThread();
-        if (!empty($result))
-        {
-            exit ("Error.  Unable to DELETE record.  Check that record exists!" . $connection->error);
-            return false;
-        }
-        return true;
-    }
-
     public function pinThread()
     {
         if(!$this->threadID)
@@ -116,10 +58,10 @@ class Thread implements ModelInterface
         $stmti->bind_param("i", $this->threadID);
 
         // Check if isPinned value was changed to 1
-        $result = $this->queryThread();
-        if(!empty($result))
+        $record = $this->getRecord();
+        if(!empty($record))
         {
-            if($result['isPinned'] === 1)
+            if($record['isPinned'] === 1)
             {
                 $this->isPinned = 1;
                 return true;
@@ -139,11 +81,12 @@ class Thread implements ModelInterface
         $stmti = $connection->prepare($sqli);
         $stmti->bind_param("i", $this->threadID);
 
+        
         // Check if isPinned value was changed to 0
-        $result = $this->queryThread();
-        if(!empty($result))
+        $record = $this->getRecord();
+        if(!empty($record))
         {
-            if($result['isPinned'] === 0)
+            if($record['isPinned'] === 0)
             {
                 $this->isPinned = 0;
                 return true;
@@ -154,29 +97,64 @@ class Thread implements ModelInterface
 
     public function getThreadID()
     {
-        return $threadID;
+        return $this->threadID;
     }
 
     public function getTopic()
     {
-        return $topic;
+        return $this->topic;
     }
 
     public function getTimeCreated()
     {
-        return $timeCreated;
+        return $this->timeCreated;
     }
     public function getIsPinned()
     {
-        return $isPinned;
+        return $this->isPinned;
     }
     public function getUserID()
     {
-        return $userID;
+        return $this->userID;
     }
     public function getForumID()
     {
-        return $forumID;
+        return $this->forumID;
+    }
+
+    public function save()
+    {
+        $nConn = new Connection();
+        $arr = array('topic'=>$this->topic,'isPinned'=>$this->isPinned, 'userID'=>$this->userID, 'forumID'=>$this->forumID);
+        $this->threadID = $nConn->save($this->tableName, $arr);
+    }
+
+    public function delete()
+    {
+        if($this->threadID === "")
+            return;
+        $nConn = new Connection();
+        $nConn->delete($this->tableName, $this->threadID);
+    }
+
+    public function update()
+    {
+        echo "inside Thread:update\n";
+        $nConn = new Connection();
+        $arr = array('topic'=>$this->topic,'isPinned'=>$this->isPinned, 'userID'=>$this->userID, 'forumID'=>$this->forumID);
+        $nConn->update($this->tableName, $this->threadID, $arr);
+    }
+
+    public function getRecord()
+    {
+        if($this->threadID === "")
+            return;
+        $nConn = new Connection();
+        $nConn->getRecord($this->tableName, $this->threadID);
+    }
+
+    public function findById(){
+
     }
 }
 

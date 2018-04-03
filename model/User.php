@@ -8,7 +8,7 @@ require('ModelInterface.php');
 
 class User implements ModelInterface
 {
-
+  private $userID = "";
   private $tableName = "User";
   private $password = "";
   private $email = "";
@@ -23,7 +23,6 @@ class User implements ModelInterface
     $this->lastName = $lastName;
     $this->password = $pass;
     $this->email = $email;
-
   }
 
 
@@ -32,16 +31,31 @@ class User implements ModelInterface
     echo "inside User:save\n";
     $nConn = new Connection();
     $arr = array('firstName'=>$this->firstName,'lastName'=>$this->lastName, 'password'=>$this->password, 'email'=>$this->email);
-    $nConn->save($this->tableName, $arr);
+    $this->userID = $nConn->save($this->tableName, $arr);
   }
 
   public function delete()
   {
-
+    if($this->userID === "")
+      return;
+    $nConn = new Connection();
+    $nConn->delete($this->tableName, $this->userID);
   }
 
-  public function update(){
+  public function update()
+  {
+    echo "inside User:update\n";
+    $nConn = new Connection();
+    $arr = array('password'=>$this->password,'email'=>$this->email, 'firstName'=>$this->firstName, 'lastName'=>$this->lastName);
+    $nConn->update($this->tableName, $this->userID, $arr);
+  }
 
+  public function getRecord()
+  {
+    if($this->userID === "")
+      return;
+    $nConn = new Connection();
+    $nConn->getRecord($this->tableName, $this->userID);
   }
 
   public function findById(){
