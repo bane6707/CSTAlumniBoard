@@ -62,6 +62,13 @@ class User implements ModelInterface
   public function findById(){
 
   }
+
+  public function checkUser() {
+    $nConn = new Connection();
+    $clause = " email = '$this->email' and password ='$this->password'";
+    //echo $clause;
+    return $nConn->getCount($this->tableName, $clause);
+  }
 }
 
 ?>

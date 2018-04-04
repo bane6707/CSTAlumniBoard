@@ -37,6 +37,7 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
                 echo "<th><span>Forum</span></th>";
                 echo "<th><span>Thread</span></th>";
                 echo "<th><span>Created</span></th>";
+<<<<<<< HEAD
                 foreach($records as $record)
                 {
                     echo "<tr>";
@@ -45,6 +46,14 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
                     {
                         echo "<td>" .$col. "</td>";
                     }
+=======
+                while($row = $records->fetch_array())
+                {
+                    echo "<tr>";
+                    echo "<td>" .$row["title"]. "</td>";
+                    echo "<td>" .$row["topic"]. "</td>";
+                    echo "<td>" .$row["timeCreated"]. "</td>";
+>>>>>>> story-156034140
                     echo "</tr>";
                 }
             ?>

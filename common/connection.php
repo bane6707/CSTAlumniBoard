@@ -120,6 +120,28 @@ class Connection
     $results = $this->_conn->query($str);
     return $results;
   }
+
+
+  /**
+  *
+  */
+  function getCount($tableName, $whereClause) {
+
+
+    $str="SELECT count(*) FROM " . strtoupper($tableName) . " WHERE $whereClause";
+    //echo "$str\n";//your sql
+    $res = $this->_conn->query($str);
+    $row = $res->fetch_row();
+    //echo $row[0]."~~";
+
+    /*if ($this->_conn->query($str) === TRUE) {
+      //echo "Record created successfully\n";
+    } else {
+      //echo "Error: " . $str . "\n" . $this->_conn->error;
+    }*/
+    return $row[0];
+  }
+
 }
 
 ?>
