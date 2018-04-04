@@ -37,14 +37,12 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
                 echo "<th><span>Forum</span></th>";
                 echo "<th><span>Thread</span></th>";
                 echo "<th><span>Created</span></th>";
-                foreach($records as $record)
+                while($row = $records->fetch_array())
                 {
                     echo "<tr>";
-                    $record = $records->fetch_assoc();
-                    foreach($record as $col)
-                    {
-                        echo "<td>" .$col. "</td>";
-                    }
+                    echo "<td>" .$row["title"]. "</td>";
+                    echo "<td>" .$row["topic"]. "</td>";
+                    echo "<td>" .$row["timeCreated"]. "</td>";
                     echo "</tr>";
                 }
             ?>
