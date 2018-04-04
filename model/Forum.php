@@ -22,7 +22,7 @@ class Forum implements ModelInterface
 
   public function save()
   {
-    echo "inside Forum:save\n";
+    //echo "inside Forum:save\n";
     $nConn = new Connection();
     $arr = array('title'=>$this->title, 'userID'=>$this->userID);
     $this->forumID = $nConn->save($this->tableName, $arr);
@@ -46,7 +46,7 @@ class Forum implements ModelInterface
 
   public function update()
   {
-    echo "inside Forum:update\n";
+    //echo "inside Forum:update\n";
     $nConn = new Connection();
     $arr = array('title'=>$this->title, 'userID'=>$this->userID);
     $nConn->update($this->tableName, $this->forumID, $arr);

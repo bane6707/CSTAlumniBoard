@@ -18,7 +18,7 @@ class User implements ModelInterface
 
   function __construct($firstName, $lastName, $pass, $email )
   {
-    echo "inside User:constructor\n";
+    //echo "inside User:constructor\n";
     $this->firstName = $firstName;
     $this->lastName = $lastName;
     $this->password = $pass;
@@ -28,7 +28,7 @@ class User implements ModelInterface
 
   public function save()
   {
-    echo "inside User:save\n";
+    //echo "inside User:save\n";
     $nConn = new Connection();
     $arr = array('firstName'=>$this->firstName,'lastName'=>$this->lastName, 'password'=>$this->password, 'email'=>$this->email);
     $this->userID = $nConn->save($this->tableName, $arr);
@@ -44,7 +44,7 @@ class User implements ModelInterface
 
   public function update()
   {
-    echo "inside User:update\n";
+    //echo "inside User:update\n";
     $nConn = new Connection();
     $arr = array('password'=>$this->password,'email'=>$this->email, 'firstName'=>$this->firstName, 'lastName'=>$this->lastName);
     $nConn->update($this->tableName, $this->userID, $arr);

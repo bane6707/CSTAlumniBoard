@@ -25,7 +25,7 @@ class Thread implements ModelInterface
 
     public function loadThreadByID($threadID)
     {
-        echo "inside Thread:loadThreadByID\n";
+        //echo "inside Thread:loadThreadByID\n";
         $this->threadID = $threadID;
         $record = $this->getRecord();
         if(!empty($record))
@@ -37,16 +37,16 @@ class Thread implements ModelInterface
             $this->forumID = $record['forumID'];
             return true;
         }
-        echo "No record for threadID=".$threadID."\n";
+        //echo "No record for threadID=".$threadID."\n";
         return false;
     }
 
     public function pinThread()
     {
-        echo "inside Thread:pinThread\n";
+        //echo "inside Thread:pinThread\n";
         if(!$this->threadID)
         {
-            echo "Error- no threadID associated with Thread, cannot pin.";
+            //echo "Error- no threadID associated with Thread, cannot pin.";
             return false;
         }
         $nConn = new Connection();
@@ -60,20 +60,20 @@ class Thread implements ModelInterface
             if($record['isPinned'] == 1)
             {
                 $this->isPinned = 1;
-                echo "\nRecord pinned\n";
+                //echo "\nRecord pinned\n";
                 return true;
             }
         }
-        echo "\nRecord not pinned\n";
+        //echo "\nRecord not pinned\n";
         return false;
     }
 
     public function unpinThread()
     {
-        echo "inside Thread:unpinThread\n";
+        //echo "inside Thread:unpinThread\n";
         if(!$this->threadID)
         {
-            echo "Error- no threadID associated with Thread, cannot unpin.";
+            //echo "Error- no threadID associated with Thread, cannot unpin.";
             return false;
         }
 
@@ -88,11 +88,11 @@ class Thread implements ModelInterface
             if($record['isPinned'] == 0)
             {
                 $this->isPinned = 0;
-                echo "\nRecord unpinned\n";
+                //echo "\nRecord unpinned\n";
                 return true;
             }
         }
-        echo "\nRecord not unpinned\n";
+        //echo "\nRecord not unpinned\n";
         return false;
     }
 
@@ -140,7 +140,7 @@ class Thread implements ModelInterface
 
     public function update()
     {
-        echo "inside Thread:update\n";
+        //echo "inside Thread:update\n";
         $nConn = new Connection();
         $arr = array('topic'=>$this->topic,'isPinned'=>$this->isPinned, 'userID'=>$this->userID, 'forumID'=>$this->forumID);
         $nConn->update($this->tableName, $this->threadID, $arr);

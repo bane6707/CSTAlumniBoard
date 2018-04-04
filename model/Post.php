@@ -25,7 +25,7 @@ class Post implements ModelInterface
 
     public function loadPostByID($postID)
     {
-        self::outputToConsole("inside Post:loadPostByID");
+        //self::outputToConsole("inside Post:loadPostByID");
         $this->postID = $postID;
         $record = $this->getRecord();
         if(!empty($record))
@@ -36,16 +36,16 @@ class Post implements ModelInterface
             $this->threadID = $record['threadID'];
             return true;
         }
-        self::outputToConsole("No record for postID=".$postID);
+        //self::outputToConsole("No record for postID=".$postID);
         return false;
     }
 
     public function pinPost()
     {
-        self::outputToConsole("inside Post:pinPost");
+        //self::outputToConsole("inside Post:pinPost");
         if(!$this->postID)
         {
-            self::outputToConsole("Error- no postID associated with Post, cannot pin.");
+            //self::outputToConsole("Error- no postID associated with Post, cannot pin.");
             return false;
         }
         $nConn = new Connection();
@@ -59,20 +59,20 @@ class Post implements ModelInterface
             if($record['isPinned'] == 1)
             {
                 $this->isPinned = 1;
-                self::outputToConsole("Record pinned");
+                //self::outputToConsole("Record pinned");
                 return true;
             }
         }
-        self::outputToConsole("Record not pinned");
+        //self::outputToConsole("Record not pinned");
         return false;
     }
 
     public function unpinPost()
     {
-        self::outputToConsole("inside Post:unpinPost");
+        //self::outputToConsole("inside Post:unpinPost");
         if(!$this->postID)
         {
-            self::outputToConsole("Error- no postID associated with Post, cannot unpin.");
+            //self::outputToConsole("Error- no postID associated with Post, cannot unpin.");
             return false;
         }
 
@@ -87,11 +87,11 @@ class Post implements ModelInterface
             if($record['isPinned'] == 0)
             {
                 $this->isPinned = 0;
-                self::outputToConsole("Record unpinned");
+                //self::outputToConsole("Record unpinned");
                 return true;
             }
         }
-        self::outputToConsole("Record not unpinned");
+        //self::outputToConsole("Record not unpinned");
         return false;
     }
 
@@ -139,7 +139,7 @@ class Post implements ModelInterface
 
     public function update()
     {
-        self::outputToConsole("inside Post:update");
+        //self::outputToConsole("inside Post:update");
         $nConn = new Connection();
         $arr = array('content'=>$this->content,'isPinned'=>$this->isPinned, 'userID'=>$this->userID, 'threadID'=>$this->threadID);
         $nConn->update($this->tableName, $this->postID, $arr);

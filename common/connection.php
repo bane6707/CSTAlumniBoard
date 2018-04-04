@@ -13,9 +13,9 @@ class Connection
   {
     try{
       $this->_conn = new mysqli($host, $user, $pass, $database);
-      echo "CONNECTED: ";
+      //echo "CONNECTED: ";
     }catch(Exception $e){
-      echo $e->getMessage();
+      //echo $e->getMessage();
     }
   }
 
@@ -24,18 +24,18 @@ class Connection
   */
   function save($tableName, $arr)
   {
-    echo "inside connection:save\n";
+    //echo "inside connection:save\n";
     $columns=array_keys($arr);
     $values=array_values($arr);
 
     $str="INSERT INTO $tableName (".implode(',',$columns).
     ") VALUES ('" . implode("', '", $values) . "' );";
-    echo "$str\n";//your sql
+    //echo "$str\n";//your sql
 
     if ($this->_conn->query($str) === TRUE) {
-      echo "Record created successfully\n";
+      //echo "Record created successfully\n";
     } else {
-      echo "Error: " . $str . "\n" . $this->_conn->error;
+      //echo "Error: " . $str . "\n" . $this->_conn->error;
     }
     return $this->_conn->insert_id;
   }
@@ -44,7 +44,7 @@ class Connection
   */
   function update($tableName, $ID, $arr)
   {
-    echo "inside connection:update\n";
+    //echo "inside connection:update\n";
     $columns=array_keys($arr);
     $values=array_values($arr);
     foreach($arr as $key => $value)
@@ -55,12 +55,12 @@ class Connection
     }
     $eqArray = implode(', ', $updates);
     $str="UPDATE $tableName SET $eqArray WHERE $tableName"."ID=$ID";
-    echo "$str\n";//your sql
+    //echo "$str\n";//your sql
 
     if ($this->_conn->query($str) === TRUE) {
-      echo "New record updated successfully\n";
+      //echo "New record updated successfully\n";
     } else {
-      echo "Error: " . $str . "\n" . $this->_conn->error;
+      //echo "Error: " . $str . "\n" . $this->_conn->error;
     }
   }
 
@@ -69,20 +69,20 @@ class Connection
   */
   function delete($tableName, $ID)
   {
-    echo "inside connection:delete\n";
+    //echo "inside connection:delete\n";
 
     $str="DELETE FROM $tableName WHERE $tableName" . "ID = $ID";
-    echo "$str\n";//your sql
+    //echo "$str\n";//your sql
 
     if ($this->_conn->query($str) === TRUE)
     {
       if(empty($this->getRecord($tableName, $ID)))
       {
-        echo "Record deleted successfully";
+        //echo "Record deleted successfully";
         return;
       }
     }
-    echo "Error: " . $str . "<br>" . $this->_conn->error;
+    //echo "Error: " . $str . "<br>" . $this->_conn->error;
   }
 
   /**
@@ -90,22 +90,22 @@ class Connection
   */
   function getRecord($tableName, $ID)
   {
-    echo "inside connection:getRecord\n";
+    //echo "inside connection:getRecord\n";
 
     $str="SELECT * FROM $tableName WHERE $tableName" . "ID = $ID";
-    echo "$str\n";//your sql
+    //echo "$str\n";//your sql
 
     $results = $this->_conn->query($str);
     $record = $results->fetch_assoc();
     if (!empty($record))
     {
-      echo "Record retrieved successfully\n";
+      //echo "Record retrieved successfully\n";
       foreach($record as $value)
-        echo "| ".$value;
-      echo "|";
+        //echo "| ".$value;
+      //echo "|";
       return $record;
     } else {
-      echo "Error: " . $str . ". No record exists.\n" . $this->_conn->error;
+      //echo "Error: " . $str . ". No record exists.\n" . $this->_conn->error;
     }
   }
 }
