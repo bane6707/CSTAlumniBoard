@@ -1,3 +1,22 @@
+<?php
+    include("../model/User.php");
+    if(isset($_POST["email"]) && isset($_POST["pass"]))
+    {
+      //echo $_POST["pass"]." ,".$_POST["email"];
+      $usr = new User("","", $_POST["pass"], $_POST["email"]);
+      $res = $usr->checkUser();
+
+      //echo "--$res--";
+      if($res == "1")
+      {
+        session_start();
+        $_SESSION['username'] = $_POST["email"];
+        //echo "login successful";
+        header("location: boards.php");
+      }
+    }
+?>
+
 <!DOCTYPE html>
 <head>
     <title>CST Alumni Board</title>
@@ -20,7 +39,7 @@
                 <label for "email" class="require"> CSUMB Email: </label>
             </td>
             <td>
-                <input type="text" size="20" name="email" value="email" required/>
+                <input type="text" size="20" name="email" value="" required/>
             </td>
         </tr>
         <tr>

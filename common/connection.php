@@ -108,6 +108,26 @@ class Connection
       //echo "Error: " . $str . ". No record exists.\n" . $this->_conn->error;
     }
   }
+
+  /**
+  *
+  */
+  function getCount($tableName, $whereClause) {
+
+
+    $str="select count(*) from $tableName where $whereClause";
+    //echo "$str\n";//your sql
+    $res = $this->_conn->query($str);
+    $row = $res->fetch_row();
+    //echo $row[0];
+
+    /*if ($this->_conn->query($str) === TRUE) {
+      //echo "Record created successfully\n";
+    } else {
+      //echo "Error: " . $str . "\n" . $this->_conn->error;
+    }*/
+    return $row[0];
+  }
 }
 
 ?>
