@@ -14,7 +14,7 @@ class User implements ModelInterface
   private $email = "";
   private $firstName = "";
   private $lastName = "";
-
+  
 
   function __construct($firstName, $lastName, $pass, $email )
   {

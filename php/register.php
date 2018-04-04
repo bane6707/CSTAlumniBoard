@@ -47,17 +47,20 @@
     </tr>
 </table>
 <?php
+    if($success)
+    {   
+        header("location:./registerSuccess.php");
+        die;
+    }
+    else if(isset($_POST["fName"]) && empty($msgs))
+        array_push($msgs, "An account already exists with this email");
+    
     if(!empty($msgs))
     {   
         echo '<div id="msgs"><table>';
         foreach($msgs as $msg)
             echo "<tr><td><p>*". $msg ."</p></td></tr>";
         echo '</table></div>';
-    }
-    if($success)
-    {   
-        header("location:./registerSuccess.php");
-        die;
     }
 ?>
 <div id="wrap">

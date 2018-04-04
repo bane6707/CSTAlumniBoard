@@ -28,7 +28,7 @@ class Connection
     $columns=array_keys($arr);
     $values=array_values($arr);
 
-    $str="INSERT INTO $tableName (".implode(',',$columns).
+    $str="INSERT INTO " . strtoupper($tableName) . " (".implode(',',$columns).
     ") VALUES ('" . implode("', '", $values) . "' );";
     //echo "$str\n";//your sql
 
@@ -54,7 +54,7 @@ class Connection
       $updates[] = "$key = $value";
     }
     $eqArray = implode(', ', $updates);
-    $str="UPDATE $tableName SET $eqArray WHERE $tableName"."ID=$ID";
+    $str="UPDATE " . strtoupper($tableName) . " SET $eqArray WHERE $tableName"."ID=$ID";
     //echo "$str\n";//your sql
 
     if ($this->_conn->query($str) === TRUE) {
@@ -71,7 +71,7 @@ class Connection
   {
     //echo "inside connection:delete\n";
 
-    $str="DELETE FROM $tableName WHERE $tableName" . "ID = $ID";
+    $str="DELETE FROM " . strtoupper($tableName) . " WHERE $tableName" . "ID = $ID";
     //echo "$str\n";//your sql
 
     if ($this->_conn->query($str) === TRUE)
@@ -92,7 +92,7 @@ class Connection
   {
     //echo "inside connection:getRecord\n";
 
-    $str="SELECT * FROM $tableName WHERE $tableName" . "ID = $ID";
+    $str="SELECT * FROM " . strtoupper($tableName) . " WHERE $tableName" . "ID = $ID";
     //echo "$str\n";//your sql
 
     $results = $this->_conn->query($str);
@@ -112,14 +112,26 @@ class Connection
   /**
   *
   */
+  function getQuery($str)
+  {
+    //echo "inside connection:getAllRecords\n";
+    //echo "$str\n";//your sql
+
+    $results = $this->_conn->query($str);
+    return $results;
+  }
+
+  /**
+  *
+  */
   function getCount($tableName, $whereClause) {
 
 
-    $str="select count(*) from $tableName where $whereClause";
+    $str="SELECT count(*) FROM " . strtoupper($tableName) . " WHERE $whereClause";
     //echo "$str\n";//your sql
     $res = $this->_conn->query($str);
     $row = $res->fetch_row();
-    //echo $row[0];
+    //echo $row[0]."~~";
 
     /*if ($this->_conn->query($str) === TRUE) {
       //echo "Record created successfully\n";

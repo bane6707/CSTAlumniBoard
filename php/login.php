@@ -11,8 +11,12 @@
       {
         session_start();
         $_SESSION['username'] = $_POST["email"];
-        //echo "login successful";
-        header("location: boards.php");
+        //login successful
+        header("location: ./boards.php");
+      }
+      else
+      {
+          $unsuccessful=1;
       }
     }
 ?>
@@ -31,6 +35,10 @@
 </table>
 <div id="wrap">
     <h3> Sign In to CST Alumni Board </h3>
+    <?php
+        if($unsuccessful==1)
+            echo "<h4>INCORRECT EMAIL OR PASSWORD</h4>";
+    ?>
     <h4>Please enter your email and password.</h4>
     <table>
         <form action="" method="post">
