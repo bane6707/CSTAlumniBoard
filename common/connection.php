@@ -28,7 +28,7 @@ class Connection
     $columns=array_keys($arr);
     $values=array_values($arr);
 
-    $str="INSERT INTO $tableName (".implode(',',$columns).
+    $str="INSERT INTO " . strtoupper($tableName) . " (".implode(',',$columns).
     ") VALUES ('" . implode("', '", $values) . "' );";
     //echo "$str\n";//your sql
 
@@ -54,7 +54,7 @@ class Connection
       $updates[] = "$key = $value";
     }
     $eqArray = implode(', ', $updates);
-    $str="UPDATE $tableName SET $eqArray WHERE $tableName"."ID=$ID";
+    $str="UPDATE " . strtoupper($tableName) . " SET $eqArray WHERE $tableName"."ID=$ID";
     //echo "$str\n";//your sql
 
     if ($this->_conn->query($str) === TRUE) {
@@ -71,7 +71,7 @@ class Connection
   {
     //echo "inside connection:delete\n";
 
-    $str="DELETE FROM $tableName WHERE $tableName" . "ID = $ID";
+    $str="DELETE FROM " . strtoupper($tableName) . " WHERE $tableName" . "ID = $ID";
     //echo "$str\n";//your sql
 
     if ($this->_conn->query($str) === TRUE)
@@ -92,7 +92,7 @@ class Connection
   {
     //echo "inside connection:getRecord\n";
 
-    $str="SELECT * FROM $tableName WHERE $tableName" . "ID = $ID";
+    $str="SELECT * FROM " . strtoupper($tableName) . " WHERE $tableName" . "ID = $ID";
     //echo "$str\n";//your sql
 
     $results = $this->_conn->query($str);
