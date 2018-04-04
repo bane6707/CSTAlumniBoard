@@ -32,7 +32,7 @@
             if(empty($msgs))
             {
                 $user = new User($_POST["fName"], $_POST["lName"], $_POST["password"], $_POST["email"]);
-                if($user->save())
+                if($user->save()!=0)
                     $success = true;
             }
         }
@@ -56,10 +56,8 @@
     }
     if($success)
     {   
-        echo '<div id="success"><table>';
-        foreach($msgs as $msg)
-            echo "<tr><td><p>You have successfully registered in.</p></td></tr>";
-        echo '</table></div>';
+        header("location:./registerSuccess.php");
+        die;
     }
 ?>
 <div id="wrap">

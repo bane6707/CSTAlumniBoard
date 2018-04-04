@@ -32,6 +32,7 @@ class User implements ModelInterface
     $nConn = new Connection();
     $arr = array('firstName'=>$this->firstName,'lastName'=>$this->lastName, 'password'=>$this->password, 'email'=>$this->email);
     $this->userID = $nConn->save($this->tableName, $arr);
+    return $this->userID;
   }
 
   public function delete()
