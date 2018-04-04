@@ -108,6 +108,18 @@ class Connection
       //echo "Error: " . $str . ". No record exists.\n" . $this->_conn->error;
     }
   }
+
+  /**
+  *
+  */
+  function getQuery($str)
+  {
+    //echo "inside connection:getAllRecords\n";
+    //echo "$str\n";//your sql
+
+    $results = $this->_conn->query($str);
+    return $results;
+  }
 }
 
 ?>
