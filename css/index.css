@@ -1,0 +1,73 @@
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: darkblue;
+    background: #f2f2f2;
+}
+
+h1 {
+    color: darkblue;
+}
+
+h1, h2, h3, h4 {
+    text-align: center;
+}
+
+h3 {
+    font: italic 22px 'Times';
+}
+
+h4 {
+    font: bold 14px 'Times';
+}
+
+p {
+    margin: 5px 5px 5px 5px;
+}
+
+table, td, th {
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+}
+
+input {
+    font: normal 16px;
+    border: 1px solid #DFDFDF;
+    padding: 6px;
+}
+
+#wrap {
+    margin: 0 auto;
+    margin-top: 20px; 
+    width: 80%;
+    padding: 10px;
+    background: ghostwhite;
+    border: 1px solid #DFDFDF;
+}
+
+#msgs td, th {
+    margin: 0 auto;
+    margin-top: 0px;
+    padding: 0px;
+}
+#msgs p{
+    font-weight: 900;
+    font-size: 14px;
+    color: red;
+    padding: 0px;
+}
+
+.submitBtn {
+    color: ghostwhite;
+    background: limegreen;
+}
+
+.center {
+    text-align: center;
+}
+
+.require::after {
+    color: red;
+    content: "*";
+}
