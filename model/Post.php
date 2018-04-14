@@ -127,6 +127,7 @@ class Post implements ModelInterface
         $nConn = new Connection();
         $arr = array('content'=>$this->content,'isPinned'=>$this->isPinned, 'userID'=>$this->userID, 'threadID'=>$this->threadID);
         $this->postID = $nConn->save($this->tableName, $arr);
+        return $this->postID;
     }
 
     public function delete()

@@ -128,6 +128,7 @@ class Thread implements ModelInterface
         $nConn = new Connection();
         $arr = array('topic'=>$this->topic,'isPinned'=>$this->isPinned, 'userID'=>$this->userID, 'forumID'=>$this->forumID);
         $this->threadID = $nConn->save($this->tableName, $arr);
+        return $this->threadID;
     }
 
     public function delete()

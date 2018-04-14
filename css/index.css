@@ -40,7 +40,7 @@ input {
 #wrap {
     margin: 0 auto;
     margin-top: 20px; 
-    width: 80%;
+    width: 90%;
     padding: 10px;
     background: ghostwhite;
     border: 1px solid #DFDFDF;
@@ -51,11 +51,36 @@ input {
     margin-top: 0px;
     padding: 0px;
 }
+
 #msgs p{
     font-weight: 900;
     font-size: 14px;
     color: red;
     padding: 0px;
+}
+
+#forumTable {
+    width:90%;
+}
+#forumTable th, td {
+    text-align: left;
+    padding: 5px;
+    font-size: 14px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+#forumTable th {
+    color: ghostwhite;
+    background: #A39063;
+}
+#forumTable td {
+    color: dimgray;
+}
+
+#forumTable tr:nth-child(even) {
+    background: #f2f2f2;
+}
+#forumTable tr:nth-child(odd) {
+    background: #e6e6e6;
 }
 
 .submitBtn {
@@ -67,7 +92,50 @@ input {
     text-align: center;
 }
 
+#topTable {
+    width: 100%;
+}
+#topTable td h3 {
+    text-align: left;
+    font-size: 16px;
+    font: normal 16px 'Trebuchet MS';
+}
+
 .require::after {
     color: red;
     content: "*";
+}
+
+#sub {
+    width: 100px;
+    font: normal 16px;
+    border: 1px solid #DFDFDF;
+    padding: 6px;
+    color: ghostwhite;
+    background: #2db92d;
+}
+
+#sub:hover {
+    font: normal 16px;
+    border: 1px solid #DFDFDF;
+    padding: 6px;
+    color: ghostwhite;
+    background: limegreen;
+}
+
+#unsub {
+    width: 100px;
+    font: normal 16px;
+    border: 1px solid #DFDFDF;
+    padding: 6px;
+    color: ghostwhite;
+    background: #bfbfbf;
+}
+
+#unsub:hover {
+    font: normal 16px;
+    border: 1px solid #DFDFDF;
+    padding: 6px;
+    color: ghostwhite;
+    background: #cccccc;
 }

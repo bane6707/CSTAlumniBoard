@@ -2,11 +2,12 @@
 
 require_once('../common/connection.php');
 require('ModelInterface.php');
+require("Subscriber.php");
 /**
  *
  */
 
-class User implements ModelInterface
+class User implements ModelInterface, Subscriber
 {
   private $userID = "";
   private $tableName = "User";
@@ -14,7 +15,7 @@ class User implements ModelInterface
   private $email = "";
   private $firstName = "";
   private $lastName = "";
-  
+  private $subscriptions = "";
 
   function __construct($firstName, $lastName, $pass, $email )
   {
@@ -56,10 +57,11 @@ class User implements ModelInterface
     if($this->userID === "")
       return;
     $nConn = new Connection();
-    $nConn->getRecord($this->tableName, $this->userID);
+    return $nConn->getRecord($this->tableName, $this->userID);
   }
 
-  public function findById(){
+  public function findById()
+  {
 
   }
 
@@ -69,6 +71,53 @@ class User implements ModelInterface
     //echo $clause;
     return $nConn->getCount($this->tableName, $clause);
   }
+
+  public function getUserID()
+  {
+    return $this->userID;
+  }
+  public function getEmail()
+  {
+    return $this->email;
+  }
+  public function getFirstName()
+  {
+    return $this->firstName;
+  }
+  public function getLastName()
+  {
+    return $this->lastName;
+  }
+
+  public function notify($forumID)
+  {
+    $forumTitleQuery = "SELECT title FROM FORUM WHERE forumID = $forumID";
+    $nConn = new Connection();
+    $records = $nConn->getQuery($forumTitleQuery);
+    $row = $records->fetch_array();
+    $forumTitle = $row["title"];
+    $nQuery = "INSERT INTO NOTIFICATION (`userID`, `content`, `link`) VALUES ($userID, 'New Thread created in Forum: $forumTitle', 'http://ec2-18-144-12-110.us-west-1.compute.amazonaws.com/CSTAlumniBoard/');";
+    $nConn->getQuery($nQuery);
+  }
+
+  public function loadUserByID($userID)
+  {
+    //echo "inside User:loadUserByID\n";
+    $this->userID = $userID;
+    $record = $this->getRecord();
+    if(!empty($record))
+    {
+      $this->userID = $record['userID'];
+      $this->password = $record['password'];
+      $this->email = $record['email'];
+      $this->firstName = $record['firstName'];
+      $this->lastName = $record['lastName'];
+      return true;
+    }
+    //echo "No record for userID=".$userID."\n";
+    return false;
+  }
+  
 }
 
 ?>
