@@ -9,11 +9,11 @@ require_once('ModelInterface.php');
 class Thread implements ModelInterface
 {
     private $tableName = "Thread";
-    private $threadID;
-    private $topic;
-    private $isPinned;
-    private $userID;
-    private $forumID;
+    private $threadID = "";
+    private $topic = "";
+    private $isPinned = "";
+    private $userID = "";
+    private $forumID = "";
 
     public function __construct($topic, $userID, $forumID)
     {

@@ -1,17 +1,17 @@
 <?php
 require_once('../common/connection.php');
 include_once('../model/User.php');
-include_once('../model/Forum.php');
+include_once('../model/Notification.php');
+
 // Initialize the session
-
 session_start();
-
 
 // If session variable is not set it will redirect to login page
 if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
     header("location: login.php");
     exit;
 }
+
 $nConn = new Connection();
 
 // Create a $user and store it for session 
@@ -79,55 +79,37 @@ if(isset($_POST['unsub']) && !empty($_POST['unsub'])){
             </tr>
         </table>
     <div id="wrap">
-        <h3> List of Forums </h3>
-        <h4> Posting will be available soon. </h4>
+        <h3> Notifications </h3>
+
+        <h4> Here are the recently added threads to your subscribed Forums. </h4>
         <table id="forumTable">
             <?php
                 $userID = $_SESSION["userID"];
-                $nQuery = "SELECT FORUM.forumID, FORUM.title, THREAD.topic, THREAD.threadID, 
-                    THREAD.timeCreated, SUM(IF(USER.userID=$userID, 1, 0)) AS subbed
-                    FROM THREAD JOIN FORUM ON THREAD.forumID=FORUM.forumID
-                    LEFT JOIN FORUM_SUBSCRIPTION ON FORUM.forumID=FORUM_SUBSCRIPTION.forumID
-                    LEFT JOIN USER ON FORUM_SUBSCRIPTION.userID=USER.userID
-                    GROUP BY THREAD.threadID ORDER BY FORUM.forumID LIMIT $startIndex, 20";
+                $nQuery = "SELECT notificationID, content, THREAD.threadID, timeNotified
+                    FROM NOTIFICATION JOIN THREAD
+                    ON NOTIFICATION.threadID=THREAD.threadID
+                    WHERE NOTIFICATION.userID=$userID
+                    ORDER BY timeNotified DESC LIMIT $startIndex, 20;";
                 $records = $nConn->getQuery($nQuery);
-                echo "<tr><th><span>Forum</span></th>";
-                echo "<th><span>Thread</span></th>";
-                echo "<th><span>Created</span></th><th width='120px'></th></tr>";
-                $forumTitle = "";
+                echo "<tr><th><span>Message</span></th>";
+                echo "<th><span>Notified</span></th></tr>";
                 while($row = $records->fetch_array())
                 {
                     echo "<tr>";
-                    $date = date_create($row["timeCreated"]);
+                    $date = date_create($row["timeNotified"]);
                     $date = date_format($date, 'g:ia \o\n n/j/Y');
                     $threadID=$row["threadID"];
-                    if($forumID == $row["forumID"])
-                    {
-                        // Do not include first and last columns for threads in same forum
-                        echo "<td> </td>";
-                        echo "<td><a href='displayThreadPosts.php?threadID=$threadID'>" .$row["topic"]. "</td>";
-                        echo "<td>" .$date. "</td>";
-                        echo "<td> </td>";
-                    }
-                    else
-                    {
-                        $forumTitle = $row["title"];
-                        $forumID=$row["forumID"];
-                        echo "<td><a href='displayForumThreads.php?forumID=$forumID'>" .$forumTitle. "</a></td>";
-                        echo "<td><a href='displayThreadPosts.php?threadID=$threadID'>" .$row["topic"]. "</td>";
-                        echo "<td>" .$date. "</td>";
-                        echo '<td><form method="POST">';
-                        // Checked subscribed to determine appropriate button
-                        if($row['subbed']==0)
-                            echo '<button type="submit" id="sub" name="sub" value="'. $row["forumID"] .'">Subscribe</button>';
-                        else
-                            echo '<button type="submit" id="unsub" name="unsub" value="'. $row["forumID"] .'">Unsubscribe</button>';
-                        echo '</form></td>';
-                    }
+                    echo "<td><a href='displayThreadPosts.php?threadID=$threadID'>" .$row["content"]. "</td>";
+                    echo "<td>" .$date. "</td>";
                     echo "</tr>";
                 }
             ?>
         </table>
+        <table><tr>
+            <td class="center" colspan="1">
+                <input class="defaultBtn" type="button" value="Return to Boards" onclick="window.location.href='./boards.php'" />
+            </td>
+        </tr></table>
     </div>
     </body>
 </html>

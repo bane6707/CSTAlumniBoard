@@ -2,8 +2,9 @@
 require_once('../common/connection.php');
 include_once('../model/User.php');
 include_once('../model/Forum.php');
-// Initialize the session
+include_once('../model/Thread.php');
 
+// Initialize the session
 session_start();
 
 
@@ -12,7 +13,22 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
     header("location: login.php");
     exit;
 }
+
 $nConn = new Connection();
+
+$selectedThread = "";
+$selectedForum = "";
+if((!isset($_GET['threadID']) || empty($_GET['threadID']))){
+    header("location: boards.php");
+    exit;
+}
+else
+{
+    $selectedThread = new Thread("", "", "");
+    $selectedThread->loadThreadByID($_GET['threadID']);
+    $selectedForum = new Forum("", "");
+    $selectedForum->loadForumByID($selectedThread->getForumID());
+}
 
 // Create a $user and store it for session 
 if(!isset($_SESSION['user']) || empty($_SESSION['user']))
@@ -79,55 +95,54 @@ if(isset($_POST['unsub']) && !empty($_POST['unsub'])){
             </tr>
         </table>
     <div id="wrap">
-        <h3> List of Forums </h3>
+        <h3> Forum: <?php echo $selectedForum->getTitle();?></h3>
+        <br>
+        <h3><?php echo $selectedThread->getTopic();?></h3> 
         <h4> Posting will be available soon. </h4>
         <table id="forumTable">
             <?php
                 $userID = $_SESSION["userID"];
-                $nQuery = "SELECT FORUM.forumID, FORUM.title, THREAD.topic, THREAD.threadID, 
-                    THREAD.timeCreated, SUM(IF(USER.userID=$userID, 1, 0)) AS subbed
+                $threadID = $_GET["threadID"];
+                $nQuery = "SELECT FORUM.forumID, FORUM.title, THREAD.topic, POST.timePosted,
+                    POST.content, POST.originalPostID, POST.postID, THREAD.threadID
                     FROM THREAD JOIN FORUM ON THREAD.forumID=FORUM.forumID
                     LEFT JOIN FORUM_SUBSCRIPTION ON FORUM.forumID=FORUM_SUBSCRIPTION.forumID
                     LEFT JOIN USER ON FORUM_SUBSCRIPTION.userID=USER.userID
-                    GROUP BY THREAD.threadID ORDER BY FORUM.forumID LIMIT $startIndex, 20";
+                    LEFT JOIN POST ON POST.threadID=THREAD.threadID WHERE THREAD.threadID=$threadID
+                    ORDER BY THREAD.threadID LIMIT $startIndex, 20;";
                 $records = $nConn->getQuery($nQuery);
-                echo "<tr><th><span>Forum</span></th>";
-                echo "<th><span>Thread</span></th>";
-                echo "<th><span>Created</span></th><th width='120px'></th></tr>";
-                $forumTitle = "";
+                echo "<tr><th><span>Thread</span></th>";
+                echo "<th><span>Posts</span></th>";
+                echo "<th><span>Posted</span></th></tr>";
+                $threadID = "";
                 while($row = $records->fetch_array())
                 {
                     echo "<tr>";
-                    $date = date_create($row["timeCreated"]);
+                    $date = date_create($row["timePosted"]);
                     $date = date_format($date, 'g:ia \o\n n/j/Y');
-                    $threadID=$row["threadID"];
-                    if($forumID == $row["forumID"])
+                    if($threadID == $row["threadID"])
                     {
                         // Do not include first and last columns for threads in same forum
                         echo "<td> </td>";
-                        echo "<td><a href='displayThreadPosts.php?threadID=$threadID'>" .$row["topic"]. "</td>";
+                        echo "<td>" .$row["content"]. "</td>";
                         echo "<td>" .$date. "</td>";
-                        echo "<td> </td>";
                     }
                     else
                     {
-                        $forumTitle = $row["title"];
-                        $forumID=$row["forumID"];
-                        echo "<td><a href='displayForumThreads.php?forumID=$forumID'>" .$forumTitle. "</a></td>";
-                        echo "<td><a href='displayThreadPosts.php?threadID=$threadID'>" .$row["topic"]. "</td>";
-                        echo "<td>" .$date. "</td>";
-                        echo '<td><form method="POST">';
-                        // Checked subscribed to determine appropriate button
-                        if($row['subbed']==0)
-                            echo '<button type="submit" id="sub" name="sub" value="'. $row["forumID"] .'">Subscribe</button>';
-                        else
-                            echo '<button type="submit" id="unsub" name="unsub" value="'. $row["forumID"] .'">Unsubscribe</button>';
-                        echo '</form></td>';
+                        $threadID = $row["threadID"];
+                        echo "<td>" .$row["topic"]. "</td>";
+                        echo "<td>" .$row["content"]. "</td>";
+                        echo "<td>" .$date. "</td>"; 
                     }
                     echo "</tr>";
                 }
             ?>
         </table>
+        <table><tr>
+            <td class="center" colspan="1">
+                <input class="defaultBtn" type="button" value="Return to Boards" onclick="window.location.href='./boards.php'" />
+            </td>
+        </tr></table>
     </div>
     </body>
 </html>

@@ -82,6 +82,9 @@ input {
 #forumTable tr:nth-child(odd) {
     background: #e6e6e6;
 }
+#logoutCell {
+    text-align: left;
+}
 
 .submitBtn {
     color: ghostwhite;
@@ -95,7 +98,12 @@ input {
 #topTable {
     width: 100%;
 }
-#topTable td h3 {
+#topTable h3 {
+    text-align: left;
+    font-size: 16px;
+    font: normal 16px 'Trebuchet MS';
+}
+#topTable td {
     text-align: left;
     font-size: 16px;
     font: normal 16px 'Trebuchet MS';
@@ -104,6 +112,44 @@ input {
 .require::after {
     color: red;
     content: "*";
+}
+
+.defaultBtn {
+    display: block;
+    display: inline-block;
+    text-align: center;
+    font: normal 16px;
+    border: 1px solid #DFDFDF;
+    padding: 6px;
+    color: ghostwhite;
+    background: #917f55;
+}
+
+.defaultBtn:hover {
+    font: normal 16px;
+    border: 1px solid #DFDFDF;
+    padding: 6px;
+    color: ghostwhite;
+    background: #a18d5e;
+}
+
+.defaultBlueBtn {
+    display: block;
+    display: inline-block;
+    text-align: center;
+    font: normal 16px;
+    border: 1px solid #DFDFDF;
+    padding: 6px;
+    color: ghostwhite;
+    background: #024f97;
+}
+
+.defaultBlueBtn:hover {
+    font: normal 16px;
+    border: 1px solid #DFDFDF;
+    padding: 6px;
+    color: ghostwhite;
+    background: #025cb1;
 }
 
 #sub {
