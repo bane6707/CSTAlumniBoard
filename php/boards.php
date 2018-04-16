@@ -128,6 +128,10 @@ if(isset($_POST['unsub']) && !empty($_POST['unsub'])){
                 }
             ?>
         </table>
+        <br>
+        <br>
     </div>
+    <br>
+    <br>
     </body>
 </html>

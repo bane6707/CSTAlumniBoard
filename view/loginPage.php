@@ -52,7 +52,7 @@
                 <input type="submit" class="submitBtn" value="Sign In"/>
             </td>
             <td class="center" colspan="1">
-                <input type="button" value="Create an account" onclick="window.location.href='./register.php'" />
+                <input type="button" value="Create an account" onclick="window.location.href='../php/register.php'" />
             </td>
         </tr>
         </form>
