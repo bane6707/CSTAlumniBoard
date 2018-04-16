@@ -1,5 +1,13 @@
 <?php
     include("../common/boardconstants.php");
+    // If session variable is not set it will redirect to login page
+    session_start();
+    if(isset($_SESSION['username']))
+    {
+        header("location: ../php/boards.php");
+        exit;
+    }
+    session_destroy();
 ?>
 
 <!DOCTYPE html>

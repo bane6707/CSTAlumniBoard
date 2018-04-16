@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <td class="center" colspan="1">
-                <input type="button" class="submitBtn" value="Go to login page" onclick="window.location.href='./login.php'" />
+                <input type="button" class="submitBtn" value="Go to login page" onclick="window.location.href='../view/loginPage.php'" />
             </td>
         </tr>
         </form>

@@ -113,7 +113,7 @@
                 <input type="submit" class="submitBtn" value="Register"/>
             </td>
             <td class="center" colspan="1">
-                <input type="button" value="I have an account" onclick="window.location.href='./login.php'" />
+                <input type="button" value="I have an account" onclick="window.location.href='../view/loginPage.php'" />
             </td>
         </tr>
         </form>
