@@ -1,8 +1,7 @@
-<!DOCTYPE html>
 <?php
 if(!$_SESSION['login'])
 {
-   header("location:php/login.php");
+   header("location:view/loginPage.php");
    die;
 }
 ?>
