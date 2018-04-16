@@ -103,7 +103,7 @@ if(isset($_POST['unsub']) && !empty($_POST['unsub'])){
             <?php
                 $userID = $_SESSION["userID"];
                 $threadID = $_GET["threadID"];
-                $nQuery = "SELECT FORUM.forumID, FORUM.title, THREAD.topic, POST.timePosted,
+                $nQuery = "SELECT DISTINCT FORUM.forumID, FORUM.title, THREAD.topic, POST.timePosted,
                     POST.content, POST.originalPostID, POST.postID, THREAD.threadID
                     FROM THREAD JOIN FORUM ON THREAD.forumID=FORUM.forumID
                     LEFT JOIN FORUM_SUBSCRIPTION ON FORUM.forumID=FORUM_SUBSCRIPTION.forumID

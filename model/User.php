@@ -89,14 +89,17 @@ class User implements ModelInterface, Subscriber
     return $this->lastName;
   }
 
-  public function notify($forumID)
+  public function notify($forumID, $thread)
   {
     $forumTitleQuery = "SELECT title FROM FORUM WHERE forumID = $forumID";
     $nConn = new Connection();
     $records = $nConn->getQuery($forumTitleQuery);
     $row = $records->fetch_array();
     $forumTitle = $row["title"];
-    $nQuery = "INSERT INTO NOTIFICATION (`userID`, `content`, `link`) VALUES ($userID, 'New Thread created in Forum: $forumTitle', 'http://ec2-18-144-12-110.us-west-1.compute.amazonaws.com/CSTAlumniBoard/');";
+    $content = "'Thread -".$thread->getTopic()."- created in Forum: ". $forumTitle."'";
+    $threadID = $thread->getThreadID();
+    //~~~~ use Notification class
+    $nQuery = "INSERT INTO NOTIFICATION (`userID`, `content`, `threadID`) VALUES ($this->userID, $content, $threadID);";
     $nConn->getQuery($nQuery);
   }
 

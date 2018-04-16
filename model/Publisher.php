@@ -7,7 +7,7 @@ interface Publisher
 {
   public function subscribe($subscriber);
   public function unsubscribe($subscriber);
-  public function notifySubscribers();
+  public function notifySubscribers($obj);
 }
 
 

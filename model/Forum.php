@@ -71,7 +71,7 @@ class Forum implements ModelInterface, Publisher
   public function subscribe($user)
   {
       $userID = $user->getUserID();
-      $subscribers[$userID] = $user;
+      $this->subscribers[$userID] = $user;
       $nQuery = "INSERT INTO FORUM_SUBSCRIPTION (forumID, userID) VALUES ($this->forumID, $userID)";
       $nConn = new Connection();
       $nConn->getQuery($nQuery);
@@ -79,18 +79,18 @@ class Forum implements ModelInterface, Publisher
 
   public function unsubscribe($user)
   {
-      unset($subscribers[$user->getUserID()]);
+      unset($this->subscribers[$user->getUserID()]);
       $userID = $user->getUserID();
       $nQuery = "DELETE FROM FORUM_SUBSCRIPTION WHERE forumID=$this->forumID AND userID=$userID";
       $nConn = new Connection();
       $nConn->getQuery($nQuery);
   }
 
-  public function notifySubscribers()
+  public function notifySubscribers($thread)
   {
-      foreach($subscribers as $subscriber)
+      foreach($this->subscribers as $subscriber)
       {
-          $subscriber->notify($forumID);
+          $subscriber->notify($this->forumID, $thread);
       }
   }
 
@@ -115,7 +115,7 @@ class Forum implements ModelInterface, Publisher
         {
           $subscriber = new User("", "", "", "");
           $subscriber->loadUserByID($row["userID"]);
-          $subscribers[$subscriber->getUserID()] = $subscriber;
+          $this->subscribers[$subscriber->getUserID()] = $subscriber;
         }
         return true;
     }

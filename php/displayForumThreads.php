@@ -97,7 +97,7 @@ if(isset($_POST['unsub']) && !empty($_POST['unsub'])){
             <?php
                 $userID = $_SESSION["userID"];
                 $forumID = $_GET["forumID"];
-                $nQuery = "SELECT FORUM.forumID, FORUM.title, THREAD.topic, POST.timePosted,
+                $nQuery = "SELECT DISTINCT FORUM.forumID, FORUM.title, THREAD.topic, POST.timePosted,
                     POST.content, POST.originalPostID, POST.postID, THREAD.threadID
                     FROM THREAD JOIN FORUM ON THREAD.forumID=FORUM.forumID
                     LEFT JOIN FORUM_SUBSCRIPTION ON FORUM.forumID=FORUM_SUBSCRIPTION.forumID
@@ -135,8 +135,11 @@ if(isset($_POST['unsub']) && !empty($_POST['unsub'])){
             ?>
         </table>
         <table><tr>
-            <td class="center" colspan="1">
+            <td class="center">
                 <input class="defaultBtn" type="button" value="Return to Boards" onclick="window.location.href='./boards.php'" />
+            </td>
+            <td class="center">
+                <input class="defaultBlueBtn" type="button" value="Create Thread" onclick="window.location.href='./createThread.php?forumID=<?php echo $forumID?>'" />
             </td>
         </tr></table>
     </div>

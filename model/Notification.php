@@ -14,9 +14,8 @@ class Notification implements ModelInterface
     private $content = "";
     private $threadID = "";
 
-    public function __construct($notificationID, $userID, $content, $threadID)
+    public function __construct($userID, $content, $threadID)
     {
-        $this->notificationID = $notificationID;
         $this->userID = $userID;
         $this->content = $content;
         $this->threadID = $threadID;
