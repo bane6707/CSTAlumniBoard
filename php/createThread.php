@@ -82,7 +82,15 @@ $startIndex = 0;
                     <input type="button" class="defaultBtn" value="Logout" onclick="window.location.href='./logout.php'" />
                 </td>
                 <td width="97%">
-                    <h3>Signed in as <b><?php echo $_SESSION['user']->getFirstName() . " ".$_SESSION['user']->getLastName()."</b>.";?></h3>
+                    <h3>Signed in as <b><?php echo $_SESSION['user']->getFirstName() . " ".$_SESSION['user']->getLastName()."</b>.";
+                    if($_SESSION['roleID']==1)
+                        echo " (Standard User)";
+                    else if($_SESSION['roleID']==2)
+                        echo " (Moderator)";
+                    else if($_SESSION['roleID']==3)
+                        echo " (Admin)";
+                    ?>
+                    </h3>
                 </td>
             </tr>
             <tr>
