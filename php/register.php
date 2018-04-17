@@ -4,6 +4,7 @@
     <link href="../css/index.css" text="text/css" rel="stylesheet"/>
     <?php
         include("../model/User.php");
+        include("../model/UserFactory.php");
         
         function matchesEnd($str, $end)
         {
@@ -31,8 +32,10 @@
 
             if(empty($msgs))
             {
-                $user = new User($_POST["fName"], $_POST["lName"], $_POST["password"], $_POST["email"]);
-                if($user->save()!=0)
+                $userFactory = new UserFactory();
+                $userType = $userFactory->getUserType($_POST["userType"]);
+                $user = $userType->getUser($_POST["fName"], $_POST["lName"], $_POST["password"], $_POST["email"]);
+                if(!is_null($user))
                     $success = true;
             }
         }
@@ -106,6 +109,21 @@
             </td>
             <td>
                 <input type="password" size="20" name="confirmPass" value="" required/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="container"><i>Standard </i>
+                <input type="radio" name="userType" value="Standard" checked>
+                </label>
+            </td><td>
+                <label class="container"><i>Moderator </i>
+                <input type="radio" name="userType" value="Moderator">
+                </label>
+            </td><td>
+                <label class="container"><i>Admin </i>
+                <input type="radio" name="userType" value="Admin">
+                </label>
             </td>
         </tr>
         <tr>

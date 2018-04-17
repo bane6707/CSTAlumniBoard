@@ -21,11 +21,12 @@ if(!isset($_SESSION['user']) || empty($_SESSION['user']))
     $nQuery = "SELECT userID FROM USER WHERE email='$email'";
     $records = $nConn->getQuery($nQuery);
     $row = $records->fetch_array();
-    $user = new User("", "", "", "");
+    $user = new User("", "", "", "", "");
     $id = $row["userID"];
     $user->loadUserByID($id);
     $_SESSION['user'] = $user;
     $_SESSION['userID'] = $_SESSION['user']->getUserID();
+    $_SESSION['roleID'] = $_SESSION['user']->getRoleID();
 }
 
 $subscribed = false;
@@ -63,7 +64,14 @@ if(isset($_POST['unsub']) && !empty($_POST['unsub'])){
                     <input type="button" class="defaultBtn" value="Logout" onclick="window.location.href='./logout.php'" />
                 </td>
                 <td width="97%">
-                    <h3>Signed in as <b><?php echo $_SESSION['user']->getFirstName() . " ".$_SESSION['user']->getLastName()."</b>.";?></h3>
+                    <h3>Signed in as <b><?php echo $_SESSION['user']->getFirstName() . " ".$_SESSION['user']->getLastName()."</b>.";
+                    if($_SESSION['roleID']==1)
+                        echo " (Standard User)";
+                    else if($_SESSION['roleID']==2)
+                        echo " (Moderator)";
+                    else if($_SESSION['roleID']==3)
+                        echo " (Admin)";
+                    ?></h3>
                 </td>
             </tr>
             <tr>

@@ -3,7 +3,7 @@
     if(isset($_POST["email"]) && isset($_POST["pass"]))
     {
       //echo $_POST["pass"]." ,".$_POST["email"];
-      $usr = new User("","", $_POST["pass"], $_POST["email"]);
+      $usr = new User("","", $_POST["pass"], $_POST["email"], "");
       $res = $usr->checkUser();
 
       //echo "--$res--";

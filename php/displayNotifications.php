@@ -21,11 +21,12 @@ if(!isset($_SESSION['user']) || empty($_SESSION['user']))
     $nQuery = "SELECT userID FROM USER WHERE email='$email'";
     $records = $nConn->getQuery($nQuery);
     $row = $records->fetch_array();
-    $user = new User("", "", "", "");
+    $user = new User("", "", "", "", "");
     $id = $row["userID"];
     $user->loadUserByID($id);
     $_SESSION['user'] = $user;
     $_SESSION['userID'] = $_SESSION['user']->getUserID();
+    $_SESSION['roleID'] = $_SESSION['user']->getRoleID();
 }
 
 $subscribed = false;

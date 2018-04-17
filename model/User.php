@@ -15,15 +15,17 @@ class User implements ModelInterface, Subscriber
   private $email = "";
   private $firstName = "";
   private $lastName = "";
+  private $roleID = "";
   private $subscriptions = "";
 
-  function __construct($firstName, $lastName, $pass, $email )
+  function __construct($firstName, $lastName, $pass, $email, $roleID)
   {
     //echo "inside User:constructor\n";
     $this->firstName = $firstName;
     $this->lastName = $lastName;
     $this->password = $pass;
     $this->email = $email;
+    $this->roleID = $roleID;
   }
 
 
@@ -31,7 +33,7 @@ class User implements ModelInterface, Subscriber
   {
     //echo "inside User:save\n";
     $nConn = new Connection();
-    $arr = array('firstName'=>$this->firstName,'lastName'=>$this->lastName, 'password'=>$this->password, 'email'=>$this->email);
+    $arr = array('firstName'=>$this->firstName,'lastName'=>$this->lastName, 'password'=>$this->password, 'email'=>$this->email, 'roleID'=>$this->roleID);
     $this->userID = $nConn->save($this->tableName, $arr);
     return $this->userID;
   }
@@ -48,7 +50,7 @@ class User implements ModelInterface, Subscriber
   {
     //echo "inside User:update\n";
     $nConn = new Connection();
-    $arr = array('password'=>$this->password,'email'=>$this->email, 'firstName'=>$this->firstName, 'lastName'=>$this->lastName);
+    $arr = array('password'=>$this->password,'email'=>$this->email, 'firstName'=>$this->firstName, 'lastName'=>$this->lastName, 'roleID'=>$this->roleID);
     $nConn->update($this->tableName, $this->userID, $arr);
   }
 
@@ -88,6 +90,10 @@ class User implements ModelInterface, Subscriber
   {
     return $this->lastName;
   }
+  public function getRoleID()
+  {
+    return $this->roleID;
+  }
 
   public function notify($forumID, $thread)
   {
@@ -115,6 +121,7 @@ class User implements ModelInterface, Subscriber
       $this->email = $record['email'];
       $this->firstName = $record['firstName'];
       $this->lastName = $record['lastName'];
+      $this->roleID = $record['roleID'];
       return true;
     }
     //echo "No record for userID=".$userID."\n";
